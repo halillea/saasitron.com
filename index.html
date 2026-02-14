@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaSitron - SaaS Boilerplates & Starter Kits (2025 Edition)</title>
+    <style>
+        /* --- Reset & Variables --- */
+        :root {
+            --primary-color: #3b82f6; /* Lighter modern blue */
+            --secondary-color: #0f172a; /* Darker Slate */
+            --bg-color: #f8fafc; /* Light Gray Blue */
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border-radius: 8px;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --ad-bg: #eff6ff;
+            --ad-border: #bfdbfe;
+            --badge-bg: linear-gradient(135deg, #ec4899, #8b5cf6); /* Pink to Purple */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        ul { list-style: none; }
+
+        /* --- Navigation --- */
+        header {
+            background: var(--card-bg);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: var(--primary-color); }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white !important;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem !important;
+        }
+        
+        .btn-submit:hover { opacity: 0.9; }
+
+        /* --- Hero Section --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Grid Section --- */
+        .grid-section {
+            padding-bottom: 80px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e2e8f0;
+            position: relative; /* For badge positioning */
+        }
+
+        .card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* NEW BADGE STYLE */
+        .badge-trending {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--badge-bg);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            margin-top: 8px; /* Slight offset for badge */
+        }
+
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 12px;
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        .card-title {
+            overflow: hidden;
+            padding-right: 10px; /* Avoid clash with badge if long text */
+        }
+
+        .card-title h3 {
+            font-size: 1.05rem;
+            color: var(--secondary-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 600;
+        }
+
+        .card-title span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .card-tags {
+            margin-bottom: 12px;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            flex-grow: 1; 
+            line-height: 1.5;
+        }
+
+        .card-actions {
+            margin-top: auto;
+            display: flex;
+            justify-content: flex-start; 
+        }
+
+        .btn-visit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-visit:hover {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* --- Advertising Box Style --- */
+        .ad-card {
+            background-color: var(--ad-bg);
+            border: 1px dashed var(--ad-border);
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .ad-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .ad-card p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            max-width: 80%;
+        }
+
+        .btn-ad {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .btn-ad:hover {
+            background-color: #eff6ff;
+        }
+
+        /* --- About Section --- */
+        .about-section {
+            background-color: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 80px 0;
+            margin-top: 40px;
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .about-author {
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-img {
+            width: 50px;
+            height: 50px;
+            background-color: #cbd5e1;
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--secondary-color);
+            color: #94a3b8;
+            padding: 40px 0;
+            font-size: 0.85rem;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links a { margin-left: 20px; }
+        .footer-links a:hover { color: white; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-inner { flex-direction: column; gap: 15px; }
+            .hero h1 { font-size: 1.8rem; }
+            .footer-inner { flex-direction: column; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-inner">
+            <a href="#" class="logo">SaaSitron</a>
+            <nav class="nav-links">
+                <a href="#">Home</a>
+                <a href="#about">About</a>
+                <a href="#">Blog</a>
+                <a href="#" class="btn-submit">Submit Boilerplate</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Find Your Perfect Boilerplate</h1>
+            <p>A curated directory of SaaS boilerplates, SDKs, and starter kits to help you build faster.</p>
+        </div>
+    </section>
+
+    <section class="grid-section">
+        <div class="container grid-container">
+
+            <div class="card">
+                <div class="badge-trending">New & Trending 2025</div>
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaSBold</h3><span>by Pimjo LLC</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Next.js 15</span><span class="tag">Tailwind v4</span><span class="tag">Postgres</span></div>
+                <p class="card-desc">Production-ready Next.js 15 starter. Includes admin dashboard, RBAC, and clean architecture.</p>
+                <div class="card-actions"><a href="https://saasbold.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="badge-trending">New & Trending 2025</div>
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SupaStarter</h3><span>by SupaStarter</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Nuxt 4</span><span class="tag">Next.js</span><span class="tag">Supabase</span></div>
+                <p class="card-desc">The ultimate boilerplate for Nuxt & Next.js. Authentication, i18n, and Lemon Squeezy integration.</p>
+                <div class="card-actions"><a href="https://supastarter.dev" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="badge-trending">New & Trending 2025</div>
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>Shipixen</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">React</span><span class="tag">Shadcn UI</span><span class="tag">Generator</span></div>
+                <p class="card-desc">Codebase generator that creates a branded Next.js boilerplate with your specific pages and theme.</p>
+                <div class="card-actions"><a href="https://shipixen.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="badge-trending">New & Trending 2025</div>
+                <div class="card-header">
+                    <div class="card-icon">A</div>
+                    <div class="card-title"><h3>Next Starter AI</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span><span class="tag">LangChain</span><span class="tag">Agents</span></div>
+                <p class="card-desc">Dedicated boilerplate for building Autonomous AI Agents and RAG pipelines.</p>
+                <div class="card-actions"><a href="https://nextstarter.ai" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="badge-trending">New & Trending 2025</div>
+                <div class="card-header">
+                    <div class="card-icon">L</div>
+                    <div class="card-title"><h3>LaunchFast</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Astro</span><span class="tag">SvelteKit</span><span class="tag">SEO</span></div>
+                <p class="card-desc">SEO-optimized boilerplate for Astro and SvelteKit. Perfect for content-heavy SaaS marketing.</p>
+                <div class="card-actions"><a href="https://launchfa.st" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Put your company in front of thousands of developers.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="badge-trending">New & Trending 2025</div>
+                <div class="card-header">
+                    <div class="card-icon">R</div>
+                    <div class="card-title"><h3>RustSaaS</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Rust</span><span class="tag">Axum</span><span class="tag">Loco</span></div>
+                <p class="card-desc">High-performance, low-overhead SaaS framework built in Rust for maximum efficiency.</p>
+                <div class="card-actions"><a href="https://loco.rs" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">B</div>
+                    <div class="card-title"><h3>Bullet Train</h3><span>by Bullet Train, Inc.</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Ruby</span><span class="tag">Rails</span></div>
+                <p class="card-desc">Bullet Train is an MIT-licensed Rails-based framework that saves you months of development.</p>
+                <div class="card-actions"><a href="https://bullettrain.co" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">D</div>
+                    <div class="card-title"><h3>Divjoy</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">ReactJS</span></div>
+                <p class="card-desc">The React codebase generator for SaaS. Start with the wizard to select your preferred tools.</p>
+                <div class="card-actions"><a href="https://divjoy.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>Spark</h3><span>by Laravel LLC.</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">PHP</span><span class="tag">Laravel</span><span class="tag">VueJS</span></div>
+                <p class="card-desc">Laravel Spark is the complete recurring billing solution for Laravel.</p>
+                <div class="card-actions"><a href="https://spark.laravel.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Startup Kit</h3><span>by Geeks Accelerator</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Go</span></div>
+                <p class="card-desc">Set of libraries and boilerplate code in Golang for building scalable SaaS applications.</p>
+                <div class="card-actions"><a href="https://saasstartupkit.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Reach the right audience for your tech product.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">G</div>
+                    <div class="card-title"><h3>Gravity</h3><span>by Gravity Zero Ltd.</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">React</span></div>
+                <p class="card-desc">Spin up a new SaaS product in 5 minutes with the leading Node.js SaaS boilerplate.</p>
+                <div class="card-actions"><a href="https://usegravity.app" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>Ship Fast</h3><span>by ShipFast</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">NextJS</span></div>
+                <p class="card-desc">The NextJS boilerplate with all you need to build your SaaS and make your first $ online fast.</p>
+                <div class="card-actions"><a href="https://shipfa.st" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Pegasus</h3><span>by SaaS Pegasus</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">React</span></div>
+                <p class="card-desc">The Django SaaS Boilerplate. Pegasus handles the foundation of your application for you.</p>
+                <div class="card-actions"><a href="https://www.saaspegasus.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">L</div>
+                    <div class="card-title"><h3>Larakits</h3><span>by Larakits</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">PHP</span><span class="tag">Laravel</span></div>
+                <p class="card-desc">SaaS boilerplate for Laravel app, with integration with FastSpring.</p>
+                <div class="card-actions"><a href="https://larakits.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">W</div>
+                    <div class="card-title"><h3>Wave</h3><span>by DevDojo LLC</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">PHP</span><span class="tag">Laravel</span></div>
+                <p class="card-desc">The ultimate SaaS Starter Kit packed with awesome features like authentication and subscriptions.</p>
+                <div class="card-actions"><a href="https://devdojo.com/wave" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Your Ad Here</h3>
+                <p>Showcase your brand to the SaaS community.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">J</div>
+                    <div class="card-title"><h3>Jumpstart</h3><span>by GoRails, LLC</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Ruby</span><span class="tag">Rails</span></div>
+                <p class="card-desc">Jumpstart Pro is the best Ruby on Rails SaaS template out there.</p>
+                <div class="card-actions"><a href="https://jumpstartrails.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Core Framework</h3><span>by Bizz Support Solutions</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">AlphaAnywhere</span></div>
+                <p class="card-desc">Built with and for Alpha Anywhere. A multi-tenant framework that supports everything you expect.</p>
+                <div class="card-actions"><a href="https://www.alphasoftware.com/alpha-anywhere" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Forge</h3><span>by SaaS Forge</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span><span class="tag">React</span></div>
+                <p class="card-desc">Create your next SaaS application with the Python/React boilerplate and save time and money.</p>
+                <div class="card-actions"><a href="https://www.saasforge.dev" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">O</div>
+                    <div class="card-title"><h3>Open SaaS</h3><span>by Wasp, Inc</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">ReactJS</span></div>
+                <p class="card-desc">The free SaaS template with superpowers - An open-source, feature-rich, full-stack React + Node.JS template.</p>
+                <div class="card-actions"><a href="https://opensaas.sh" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Boilerplate</h3><span>by Async Labs</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">React</span><span class="tag">Typescript</span></div>
+                <p class="card-desc">Open source with companion book. React, Material-UI, Next, MobX, Express, Node, Mongo.</p>
+                <div class="card-actions"><a href="https://github.com/async-labs/saas" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Boost your visibility among developers.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">A</div>
+                    <div class="card-title"><h3>ASP.NET Zero</h3><span>by Volosoft Bilişim A.Ş</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">.NET</span></div>
+                <p class="card-desc">A starting point for new web applications with a modern UI and SOLID architecture.</p>
+                <div class="card-actions"><a href="https://aspnetzero.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">D</div>
+                    <div class="card-title"><h3>Djaodjin</h3><span>by Djaodjin</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span><span class="tag">Django</span></div>
+                <p class="card-desc">Django application that implements the logic to support subscription-based SaaS businesses.</p>
+                <div class="card-actions"><a href="https://djaodjin.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">C</div>
+                    <div class="card-title"><h3>Carrot Seed</h3><span>by Carrot & Company GmbH</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">Angular</span></div>
+                <p class="card-desc">Create the code foundation of your next SaaS product in minutes. Source Code included.</p>
+                <div class="card-actions"><a href="https://carrotseed.io" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">N</div>
+                    <div class="card-title"><h3>Nana</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">PHP</span><span class="tag">Laravel</span><span class="tag">VueJS</span></div>
+                <p class="card-desc">Laravel starter kit with subscriptions, invoices, default pages, tests, pipelines, and Docker.</p>
+                <div class="card-actions"><a href="https://starterindex.com/boilerplate/nana" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">N</div>
+                    <div class="card-title"><h3>Nodewood</h3><span>by Perihelion Heavy Industries</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">VueJS</span></div>
+                <p class="card-desc">JavaScript SaaS Starter Kit that provides application scaffold, user authentication, and subscriptions.</p>
+                <div class="card-actions"><a href="https://nodewood.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+             <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Connect with the next generation of SaaS founders.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">B</div>
+                    <div class="card-title"><h3>Boostack</h3><span>by Global zel Inc</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">VueJS</span></div>
+                <p class="card-desc">Built on MEVN stack, the open-source JavaScript Stack to build powerful and dynamic apps.</p>
+                <div class="card-actions"><a href="https://boostack.io" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>Serverless SaaS</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Serverless</span></div>
+                <p class="card-desc">Starter kit that serves as the perfect starting point for your SaaS product. Save months of time.</p>
+                <div class="card-actions"><a href="https://serverless.page" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">R</div>
+                    <div class="card-title"><h3>Rocket App</h3><span>by Rocket Solutions</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span></div>
+                <p class="card-desc">SaaS boilerplate for building production-ready apps with Node.js, React, and MongoDB.</p>
+                <div class="card-actions"><a href="https://rocketapp.me" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">B</div>
+                    <div class="card-title"><h3>Bedrock</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">NextJS</span></div>
+                <p class="card-desc">The modern full-stack Next.js & GraphQL boilerplate with user authentication and teams.</p>
+                <div class="card-actions"><a href="https://bedrock.io" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">T</div>
+                    <div class="card-title"><h3>Turbojet</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">ExpressJS</span></div>
+                <p class="card-desc">A pre-built jet engine for your next SaaS project. Lean server-side rendered web app.</p>
+                <div class="card-actions"><a href="https://turbojet.co" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Your product deserves the spotlight.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">M</div>
+                    <div class="card-title"><h3>Multi-Tenancy for Laravel</h3><span>by ArchTech</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">PHP</span><span class="tag">Laravel</span></div>
+                <p class="card-desc">Multi-tenancy for Laravel. An application skeleton on top of which you can build your SaaS.</p>
+                <div class="card-actions"><a href="https://tenancyforlaravel.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Start Kit</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">React</span><span class="tag">Node.JS</span></div>
+                <p class="card-desc">Build React & Node.js Saas apps at Lightning Speed. Modern and comprehensive boilerplate.</p>
+                <div class="card-actions"><a href="https://github.com/kriasoft/react-starter-kit" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">N</div>
+                    <div class="card-title"><h3>Nextless.js</h3><span>by Creative Designs Guru</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Serverless</span></div>
+                <p class="card-desc">Fastest way to build scalable and production-ready SaaS products. Includes Authentication, Payment, Teams.</p>
+                <div class="card-actions"><a href="https://nextlessjs.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">G</div>
+                    <div class="card-title"><h3>GeniePy</h3><span>by GeniePy</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span></div>
+                <p class="card-desc">Modern SaaS boilerplate backed by Python. User auth, Stripe, SEO-optimized blog, and database ready.</p>
+                <div class="card-actions"><a href="https://geniepy.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">A</div>
+                    <div class="card-title"><h3>ABP Framework</h3><span>by Volosoft Bilişim A.Ş</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">.NET</span></div>
+                <p class="card-desc">Using the .NET and the ABP Framework, pre-built application modules, advanced startup templates.</p>
+                <div class="card-actions"><a href="https://abp.io" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Promote your company here.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">A</div>
+                    <div class="card-title"><h3>Adonis Pace</h3><span>by Mezie Labs</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span></div>
+                <p class="card-desc">The fastest way to build SaaS applications with AdonisJS. Pace provides everything you need.</p>
+                <div class="card-actions"><a href="https://adonisjs.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">H</div>
+                    <div class="card-title"><h3>Hyper Saas</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span><span class="tag">Django</span></div>
+                <p class="card-desc">Django and React SaaS boilerplate & starter kit that provides all the features you need.</p>
+                <div class="card-actions"><a href="https://hyper-saas.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">P</div>
+                    <div class="card-title"><h3>Parthenon</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">PHP</span><span class="tag">Symfony</span></div>
+                <p class="card-desc">Collection of modules that will add common functionalities to a Symfony application.</p>
+                <div class="card-actions"><a href="https://getparthenon.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Rocks</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span></div>
+                <p class="card-desc">Quick start your MVP with out-of-the-box SaaS using Remix, Tailwind and Prisma.</p>
+                <div class="card-actions"><a href="https://saasrock.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">R</div>
+                    <div class="card-title"><h3>React & Firebase</h3><span>by AppHafen</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">React</span><span class="tag">Firebase</span></div>
+                <p class="card-desc">React, Firebase, Authentication, Serverless Backend, Tailwind CSS, and Payments are all hooked up.</p>
+                <div class="card-actions"><a href="https://apphafen.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Reach specific tech stack communities.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">A</div>
+                    <div class="card-title"><h3>Apptension SaaS</h3><span>by Apptension</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Serverless</span><span class="tag">ReactJS</span></div>
+                <p class="card-desc">Build SaaS products faster in Django and React. A complete SaaS starter kit.</p>
+                <div class="card-actions"><a href="https://www.apptension.com/saas-boilerplate" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">N</div>
+                    <div class="card-title"><h3>Nextacular</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">NextJS</span></div>
+                <p class="card-desc">Open-source starter kit to help you build full-stack multi-tenant SaaS platforms efficiently.</p>
+                <div class="card-actions"><a href="https://nextacular.co" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Planet</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">NextJS</span></div>
+                <p class="card-desc">Create your new Saas within 10 minutes using our React/Next.js boilerplate.</p>
+                <div class="card-actions"><a href="https://saasplanet.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">O</div>
+                    <div class="card-title"><h3>Outseta</h3><span>by Outseta LLC</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Hosted</span></div>
+                <p class="card-desc">Outseta is language agnostic. Hosts customer profiles, billing, helpdesk, live chat, and email marketing.</p>
+                <div class="card-actions"><a href="https://outseta.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">E</div>
+                    <div class="card-title"><h3>Electrik</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">PHP</span><span class="tag">Laravel</span></div>
+                <p class="card-desc">Open source saas starter kit that provides subscription billing, team management, and roles.</p>
+                <div class="card-actions"><a href="https://electrik.dev" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Place your message here.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">N</div>
+                    <div class="card-title"><h3>NetcoreSaas</h3><span>by NetcoreSaas</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">.NET</span></div>
+                <p class="card-desc">SaaS Codebase on NET, Vue and Tailwind. Multi-tenant, clean architecture, multi-theme.</p>
+                <div class="card-actions"><a href="https://netcoresaas.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">P</div>
+                    <div class="card-title"><h3>Petal</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Erlang</span><span class="tag">Elixir</span></div>
+                <p class="card-desc">Phoenix Supercharged. Tools to help you rapidly build Phoenix web applications.</p>
+                <div class="card-actions"><a href="https://petal-framework.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">M</div>
+                    <div class="card-title"><h3>Makerkit</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Javascript</span><span class="tag">Typescript</span></div>
+                <p class="card-desc">The React SaaS Starter to launch ideas in record time. Build unlimited products.</p>
+                <div class="card-actions"><a href="https://makerkit.dev" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>Ship SaaS</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Javascript</span><span class="tag">Typescript</span></div>
+                <p class="card-desc">Build your SaaS in a weekend with a Next.js SaaS boilerplate. Save 2 months of dev time.</p>
+                <div class="card-actions"><a href="https://shipsaas.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">B</div>
+                    <div class="card-title"><h3>Basejump</h3></div>
+                </div>
+                <div class="card-tags"><span class="tag">Javascript</span><span class="tag">NextJs</span></div>
+                <p class="card-desc">The fastest way to launch Supabase apps with NextJS.</p>
+                <div class="card-actions"><a href="https://usebasejump.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Be seen by tech innovators.</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">B</div>
+                    <div class="card-title"><h3>Boilerbay</h3><span>by Synapsex</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">NextJS</span><span class="tag">JavaScript</span></div>
+                <p class="card-desc">Offers a Next.js SaaS Bundle that includes landing & waitlist pages with an already setup boilerplate.</p>
+                <div class="card-actions"><a href="https://boilerbay.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">D</div>
+                    <div class="card-title"><h3>Devstarter</h3><span>by Byteoski Developers</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">NextJS</span></div>
+                <p class="card-desc">Fuel your SaaS journey with DevStarter's tech stack merging Django Ninja and Next.js.</p>
+                <div class="card-actions"><a href="https://devstarter.io" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>Shipped</h3><span>by Shipped</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">TypeScript</span><span class="tag">Node.js</span><span class="tag">React</span></div>
+                <p class="card-desc">Launch your product within hours. Save 60+ hours and $1000+. Landing pages, auth, emails.</p>
+                <div class="card-actions"><a href="https://shipped.club" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>Saaster</h3><span>by PAWECO GmbH</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">CFML</span><span class="tag">Coldfusion</span></div>
+                <p class="card-desc">Designed for startups, agencies, and programmers to develop their own SaaS platform.</p>
+                <div class="card-actions"><a href="https://saaster.io" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Starter Code</h3><span>by SaaS Starter Code</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">Nextjs</span></div>
+                <p class="card-desc">Build your SaaS in DAYS with a Next.js SaaS boilerplate.</p>
+                <div class="card-actions"><a href="https://saasstartercode.com" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card ad-card">
+                <h3>Advertise Here</h3>
+                <p>Last spot available!</p>
+                <a href="#" class="btn-ad">Contact Us</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">S</div>
+                    <div class="card-title"><h3>SaaS Starter</h3><span>by Chesterfield Laboratories</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Svelte</span><span class="tag">Supabase</span></div>
+                <p class="card-desc">Fast and free to host SaaS template. Built with SvelteKit, Supabase, Stripe, Tailwind.</p>
+                <div class="card-actions"><a href="https://github.com/create-saas-starter" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">R</div>
+                    <div class="card-title"><h3>Rapid Launch</h3><span>by RapidLaunch.it</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">NuxtJS</span><span class="tag">VueJS</span></div>
+                <p class="card-desc">Nuxt-based boilerplate designed for creating and deploying landing pages for SaaS products.</p>
+                <div class="card-actions"><a href="https://rapidlaunch.it" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">P</div>
+                    <div class="card-title"><h3>PySaaS</h3><span>by PySaaS</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Python</span><span class="tag">Pynecone</span></div>
+                <p class="card-desc">Boilerplate Python codebase that takes care of the fundamental structure and components.</p>
+                <div class="card-actions"><a href="https://pysaas.io" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">V</div>
+                    <div class="card-title"><h3>Volca</h3><span>by Volca</span></div>
+                </div>
+                <div class="card-tags"><span class="tag">Node.JS</span><span class="tag">TypeScript</span><span class="tag">AWS</span></div>
+                <p class="card-desc">SaaS boilerplate and starter kit to get your project up and running in days instead of months.</p>
+                <div class="card-actions"><a href="https://volca.io" target="_blank" class="btn-visit">Visit</a></div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="container about-content">
+            <h2>About SaaSitron</h2>
+            <p>
+                My name is Hal, I created this list to help developers to build faster.
+            </p>
+            <p>
+                The world of SaaS and nocode/vibecode is reaching higher levels day by day. 
+                This directory helps all these new communities to reach the right tools to help them start faster.
+            </p>
+            <div class="about-author">
+                <div class="author-img">H</div>
+                <div>
+                    <strong>Hal</strong><br>
+                    <span style="font-size: 0.9rem; color: #64748b;">Founder, SaaSitron</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-inner">
+            <div>&copy; 2025 SaaSitron. All rights reserved.</div>
+            <div class="footer-links">
+                <a href="#">Terms</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
